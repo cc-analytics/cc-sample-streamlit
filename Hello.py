@@ -25,9 +25,11 @@ def run():
         page_icon="👋",
     )
 
-    st.sidebar.title("Chris Chen")
-    st.sidebar.markdown(" Seasoned & Passionate Data Analytics Professional")
-    st.sidebar.markdown("")
+    st.sidebar.markdown("##### Created by:")
+    st.sidebar.markdown("# Chris Chen")
+    st.sidebar.markdown("## Seasoned Data Analytics Professional")
+    st.sidebar.markdown("chrischen.analytics@gmail.com")
+    st.sidebar.markdown("https://www.linkedin.com/in/chrischenanalytics")
 
     st.sidebar.success("Select a demo above.")
     st.markdown("# Welcome to my streamlit sandbox")
