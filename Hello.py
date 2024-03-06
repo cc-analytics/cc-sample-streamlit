@@ -29,12 +29,21 @@ def run():
 
     st.sidebar.success("Select a demo above.")
 
-        # center on Liberty Bell, add marker
-    m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
+    st.markdown("## Some of the restaurants I enjoy nearby.  ")
+    # Some restaurants I like around Dublin
+    m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=16)
     folium.Marker(
-        [39.949610, -75.150282], popup="Liberty Bell", tooltip="Liberty Bell"
+        [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Yin Ji Chang Fen"
     ).add_to(m)
-
+    folium.Marker(
+        [37.70407465648592, -121.86595372989773], popup="Mayflower Restaurant", tooltip="Good Dimsum"
+    ).add_to(m)
+    folium.Marker(
+        [37.70528970455323, -121.8816482744688], popup="Cafe Tazza", tooltip="Cafe Tazza"
+    ).add_to(m)
+    folium.Marker(
+        [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Sato Japanese Restaurant"
+    ).add_to(m)
     # call to render Folium map in Streamlit
     st_data = st_folium(m, width=725)
 
