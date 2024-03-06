@@ -31,8 +31,8 @@ def run():
 
     st.markdown("## Some of the restaurants I enjoy near Dublin:  ")
     # Some restaurants I like around Dublin
-    m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=13)
-    snow_icon = folium.map.Icon(color='lightblue', icon_color='blue', icon='Snowflake')
+    m = folium.Map(location=[37.69551734556572, -121.87394299890816], zoom_start=13)
+    snow_icon = folium.map.Icon(color='lightblue', icon_color='blue', icon='fa-regular fa-snowflake')
     folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
     ).add_to(m)
     folium.Marker(
@@ -48,7 +48,7 @@ def run():
         [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Authentic Japanese"
     ).add_to(m)
     # call to render Folium map in Streamlit
-    st_data = st_folium(m, width=725)
+    st_data = st_folium(m, width=450)
 
     st.markdown(
         """
