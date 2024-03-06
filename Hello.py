@@ -31,9 +31,10 @@ def run():
 
     st.markdown("## Some of the restaurants I enjoy near Dublin:  ")
     # Some restaurants I like around Dublin
-    m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=12)
+    m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=13)
     snow_icon = folium.map.Icon(color='lightblue', icon_color='blue', icon='Snowflake')
-    folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon)
+    folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
+    ).add_to(m)
     folium.Marker(
         [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Yin Ji Chang Fen"
     ).add_to(m)
