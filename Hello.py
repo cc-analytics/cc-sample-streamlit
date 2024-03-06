@@ -36,16 +36,16 @@ def run():
     folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
     ).add_to(m)
     folium.Marker(
-        [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Yin Ji Chang Fen"
+        [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Healthy & light"
     ).add_to(m)
     folium.Marker(
         [37.70407465648592, -121.86595372989773], popup="Mayflower Restaurant", tooltip="Good Dimsum"
     ).add_to(m)
     folium.Marker(
-        [37.70528970455323, -121.8816482744688], popup="Cafe Tazza", tooltip="Cafe Tazza"
+        [37.70528970455323, -121.8816482744688], popup="Cafe Tazza", tooltip="Authentic Indian"
     ).add_to(m)
     folium.Marker(
-        [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Sato Japanese Restaurant"
+        [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Authentic Japanese"
     ).add_to(m)
     # call to render Folium map in Streamlit
     st_data = st_folium(m, width=725)
