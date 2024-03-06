@@ -25,10 +25,12 @@ def run():
         page_icon="👋",
     )
 
-    st.write("# Chris Chen, Seasoned & Passionate Data Professional")
+    st.sidebar.title("Chris Chen")
+    st.sidebar.markdown(" Seasoned & Passionate Data Analytics Professional")
+    st.sidebar.markdown("")
 
     st.sidebar.success("Select a demo above.")
-
+    st.write("Welcome to my streamlit sandbox")
     st.markdown("### Some of the restaurants I recommend near Dublin:  ")
     # Some restaurants I like around Dublin
     m = folium.Map(location=[37.69551734556572, -121.87394299890816], zoom_start=13)
