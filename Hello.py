@@ -30,7 +30,7 @@ def run():
     st.sidebar.markdown("")
 
     st.sidebar.success("Select a demo above.")
-    st.write("Welcome to my streamlit sandbox")
+    st.markdown("# Welcome to my streamlit sandbox")
     st.markdown("### Some of the restaurants I recommend near Dublin:  ")
     # Some restaurants I like around Dublin
     m = folium.Map(location=[37.69551734556572, -121.87394299890816], zoom_start=13)
