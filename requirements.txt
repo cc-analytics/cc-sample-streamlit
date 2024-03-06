@@ -7,3 +7,4 @@ folium
 branca
 Jinja2
 Requests
+streamlit_folium 
