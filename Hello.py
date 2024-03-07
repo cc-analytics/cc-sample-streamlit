@@ -30,6 +30,8 @@ def run():
     st.sidebar.markdown("## Seasoned Data Analytics Professional")
     st.sidebar.markdown("chrischen.analytics@gmail.com")
     st.sidebar.markdown("https://www.linkedin.com/in/chrischenanalytics")
+    ACCOUNT = st.secrets["snowflake"]["account"]
+    st.write(ACCOUNT)
 
     st.sidebar.success("Select a demo above.")
     st.markdown("# Welcome to my streamlit sandbox")
