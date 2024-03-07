@@ -8,3 +8,4 @@ branca
 Jinja2
 Requests
 streamlit_folium 
+snowflake-connector-python
