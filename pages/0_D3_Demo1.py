@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 st.title("Retention example in D3")
 st.markdown("#### Created with D3 and hosted on my Google Cloud")
 st.markdown("##### url: https://tinyurl.com/48kwcs4r")
-components.iframe("https://tinyurl.com/48kwcs4r", width = 1200, height = 760, scrolling = True)
+st.image("retention_sankey_chrischen.png")
 st.sidebar.markdown("##### Created by:")
 st.sidebar.markdown("# Chris Chen")
 st.sidebar.markdown("## Seasoned Data Analytics Professional")
