@@ -31,7 +31,7 @@ def run():
         st.write("As a passionate professional committed to the ever-evolving landscape of system design and programming, I have created this platform to share my experiences, projects, and insights. Here, you will find detailed samples of my work with various cloud technologies, demonstrating my approach to solving complex challenges and contributing to the advancement of data-driven decision-making. This website also serves as a learning ground for me to stay at the forefront of technological innovation. ")
         st.write("Whether you're a fellow enthusiast, a potential collaborator, or someone curious about the power of data analytics and cloud computing, I invite you to explore my portfolio and share in the journey of continuous learning and improvement.")
     with row1[1]:        
-        st.markdown("##### Some restaurants I enjoy near Dublin:  ")
+        st.markdown("##### Some restaurants I enjoy near Dublin, CA:  ")
         # Some restaurants I like around Dublin
         m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=13)
 
