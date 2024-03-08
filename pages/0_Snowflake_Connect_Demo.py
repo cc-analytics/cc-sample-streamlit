@@ -1,25 +1,20 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from streamlit.hello.utils import show_code
+import snowflake.connector
 from urllib.error import URLError
 
 import altair as alt
 import pandas as pd
 
 # embed streamlit docs in a streamlit app
-st.set_page_config(page_title="Snowflake Demo", page_icon="❄️")
-st.title("Snowflake Connectivity")
-st.markdown("#### Connect to data from my Snowflake Database")
-
-st.markdown("##### url: https://tinyurl.com/4zv2fhc6")
-st.image("online_sales_D3_ChrisChen.png")
+st.set_page_config(page_title="Snowflake Demo", page_icon="❄️", layout="wide")
+st.title("Snowflake Connectivity Demo")
 st.sidebar.markdown("##### Created by:")
 st.sidebar.markdown("# Chris Chen")
 st.sidebar.markdown("## Seasoned Data Analytics Professional")
 st.sidebar.markdown("chrischen.analytics@gmail.com")
 st.sidebar.markdown("https://www.linkedin.com/in/chrischenanalytics")
-
-st.set_page_config(layout="wide")
 
 def init_connection():
     return snowflake.connector.connect(
@@ -40,11 +35,28 @@ def run_query(query):
         return cur.fetch_pandas_all()
     
 @st.cache_data
-def load_customer():
-    results = run_query("SELECT B.N_NAME as COUNTRY, A.C_MKT_SEGMENT as Segment, SUM(A.C_ACCTBAL) as Balance from CUSTOMER A LEFT JOIN NATION B ON A.C_NATIONKEY = B.N_NATIONKEY group by B.N_NAME, A.C_MKT_SEGMENT ")
-    return results.set_index("N_NAME")
+def load_country_segment():
+    results = run_query("SELECT B.N_NAME as COUNTRY, A.C_MKTSEGMENT as Segment, SUM(A.C_ACCTBAL) as Balance from CUSTOMER A LEFT JOIN NATION B ON A.C_NATIONKEY = B.N_NATIONKEY group by B.N_NAME, A.C_MKTSEGMENT ")
+    # return results.set_index("N_NAME")
+    return results
 
+def load_segment():
+    results = run_query("SELECT A.C_MKTSEGMENT as Segment, SUM(A.C_ACCTBAL) as Balance from CUSTOMER A  group by  A.C_MKTSEGMENT ")
+    # return results.set_index("N_NAME")
+    return results
+df = None
 # try:
-if st.button("Show Acct Balance by Segment"):      
-    df = load_customer()
+
+with st.container():
+    bt1 = st.button("Show Acct Balance by Country, Segment")
+    bt2 = st.button("Show Acct Balance by Segment")
+if bt1:
+    df = load_country_segment()
+elif bt2:
+    df = load_segment()    
+# if st.button("Show Acct Balance by Country, Segment"):      
+#     df = load_country_segment()
+# elif st.button("Show Acct Balance by Segment"):  
+#     df = load_segment()
+if df is not None:
     st.dataframe(df)

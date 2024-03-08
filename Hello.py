@@ -24,38 +24,43 @@ def run():
         page_title="Hello",
         page_icon="👋",
     )
+    st.title("Welcome to My Sandbox")
+    st.markdown("### A showcase of my journey and expertise in data analytics, BI, and cloud technologies.")
+    row1 = st.columns(2, gap="medium")
+    with row1[0]:
+        st.write("As a passionate professional committed to the ever-evolving landscape of system design and programming, I have created this platform to share my experiences, projects, and insights. Here, you will find detailed samples of my work with various cloud technologies, demonstrating my approach to solving complex challenges and contributing to the advancement of data-driven decision-making. This website also serves as a learning ground for me to stay at the forefront of technological innovation. ")
+        st.write("Whether you're a fellow enthusiast, a potential collaborator, or someone curious about the power of data analytics and cloud computing, I invite you to explore my portfolio and share in the journey of continuous learning and improvement.")
+    with row1[1]:        
+        st.markdown("##### Some restaurants I enjoy near Dublin:  ")
+        # Some restaurants I like around Dublin
+        m = folium.Map(location=[37.70286733532977, -121.87460047508559], zoom_start=13)
 
+        snow_icon = folium.map.Icon(color='lightblue')
+        folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
+        ).add_to(m)
+        folium.Marker(
+            [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Healthy & light"
+        ).add_to(m)
+        folium.Marker(
+            [37.70407465648592, -121.86595372989773], popup="Mayflower Restaurant", tooltip="Good Dimsum"
+        ).add_to(m)
+        folium.Marker(
+            [37.70528970455323, -121.8816482744688], popup="Cafe Tazza", tooltip="Authentic Indian"
+        ).add_to(m)
+        folium.Marker(
+            [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Authentic Japanese"
+        ).add_to(m)
+        # call to render Folium map in Streamlit
+        st_data = st_folium(m, width=350, height = 400)
+    st.write("Created with Streamlit")
+    st.write("")
     st.sidebar.markdown("##### Created by:")
     st.sidebar.markdown("# Chris Chen")
     st.sidebar.markdown("## Seasoned Data Analytics Professional")
     st.sidebar.markdown("chrischen.analytics@gmail.com")
     st.sidebar.markdown("https://www.linkedin.com/in/chrischenanalytics")
-    ACCOUNT = st.secrets["snowflake"]["account"]
-    st.write(ACCOUNT)
-
     st.sidebar.success("Select a demo above.")
-    st.markdown("# Welcome to my streamlit sandbox")
-    st.markdown("### Some of the restaurants I recommend near Dublin:  ")
-    # Some restaurants I like around Dublin
-    m = folium.Map(location=[37.69551734556572, -121.87394299890816], zoom_start=13)
-    snow_icon = folium.map.Icon(color='lightblue', icon_color='blue', icon='fa-snowflake', prefix='fa')
-    folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
-    ).add_to(m)
-    folium.Marker(
-        [37.69562641280019, -121.85025333314333], popup="Yin Ji Chang Fen", tooltip="Healthy & light"
-    ).add_to(m)
-    folium.Marker(
-        [37.70407465648592, -121.86595372989773], popup="Mayflower Restaurant", tooltip="Good Dimsum"
-    ).add_to(m)
-    folium.Marker(
-        [37.70528970455323, -121.8816482744688], popup="Cafe Tazza", tooltip="Authentic Indian"
-    ).add_to(m)
-    folium.Marker(
-        [37.677234124306, -121.89701156642151], popup="Sato Japanese Restaurant", tooltip="Authentic Japanese"
-    ).add_to(m)
-    # call to render Folium map in Streamlit
-    st_data = st_folium(m, width=450, height = 500)
-
+    
     st.markdown(
         """
         Streamlit is an open-source app framework built specifically for
