@@ -48,5 +48,3 @@ def load_customer():
 if st.button("Show Acct Balance by Segment"):      
     df = load_customer()
     st.dataframe(df)
-
-st.set_page_config(page_title="Snowflake Connection Demo", page_icon="📊")
