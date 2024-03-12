@@ -60,3 +60,9 @@ conn = init_connection()
 #         df = load_segment()    
 #         row[0].bar_chart(df, x="SEGMENT", y="BALANCE")
 #         row[1].dataframe(df)
+
+st.write(
+    """This app connects to Snowflake data tables I created.  Cache is implemented so it does not hit the tables every time (to save my wallet 😄).
+    Then it does the calculations in Python and display the charts.  It shows how you can use Streamlit to build dashboard.
+    I will include my sample app in Tableau, too."""
+)
