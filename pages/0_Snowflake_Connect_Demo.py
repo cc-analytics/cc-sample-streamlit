@@ -50,13 +50,13 @@ df = None
 with st.container():
     bt1 = st.button("Show Acct Balance by Country, Segment")
     bt2 = st.button("Show Acct Balance by Segment")
-if bt1:
-    df = load_country_segment()
-elif bt2:
-    df = load_segment()    
-# if st.button("Show Acct Balance by Country, Segment"):      
-#     df = load_country_segment()
-# elif st.button("Show Acct Balance by Segment"):  
-#     df = load_segment()
-if df is not None:
-    st.dataframe(df)
+
+with st.container():
+    row = st.columns(2)
+    if bt1:
+        df = load_country_segment()
+        st.dataframe(df)
+    elif bt2:
+        df = load_segment()    
+        row[0].bar_chart(df, x="SEGMENT", y="BALANCE")
+        row[1].dataframe(df)
