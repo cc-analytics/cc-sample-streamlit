@@ -8,4 +8,7 @@ branca
 Jinja2
 Requests
 streamlit_folium 
+streamlit-pills
 snowflake-connector-python
+snowflake-connector
+Faker
