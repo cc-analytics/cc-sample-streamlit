@@ -28,7 +28,7 @@ def run():
     st.markdown("### A showcase of my journey and expertise in data analytics, BI, and cloud technologies.")
     row1 = st.columns(2, gap="medium")
     with row1[0]:
-        st.write("As a passionate professional committed to the ever-evolving landscape of system design and programming, I have created this platform to share my experiences, projects, and insights. Here, you will find detailed samples of my work with various cloud technologies, demonstrating my approach to solving complex challenges and contributing to the advancement of data-driven decision-making. This website also serves as a learning ground for me to stay at the forefront of technological innovation. ")
+        st.write("As a passionate professional with over 12 years of experience in the data field, committed to the ever-evolving landscape of system design and programming, I've created this platform to share my experiences, projects, and insights gained outside of my regular job. On this website, you'll discover detailed examples of my work with various cloud technologies, showcasing how I tackle complex challenges and contribute to the advancement of data-driven decision-making from my personal projects. This site also serves as my personal learning ground, helping me stay at the forefront of technological innovation. ")
         st.write("Whether you're a fellow enthusiast, a potential collaborator, or someone curious about the power of data analytics and cloud computing, I invite you to explore my portfolio and share in the journey of continuous learning and improvement.")
     with row1[1]:        
         st.markdown("##### Restaurants I enjoy near Dublin, CA:  ")
