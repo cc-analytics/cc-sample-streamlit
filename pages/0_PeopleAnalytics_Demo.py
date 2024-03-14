@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from datetime import datetime, timedelta, date
 from streamlit_pills import pills
 # ----------------------Importing utils.py----------------------
 import io
@@ -18,6 +19,11 @@ import pandas as pd
 def load_people_data():
     results = run_query("SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\", A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\"")
     return results
+
+def calculate_age(birth_date):
+    today = datetime.now()
+    age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+    return age
 
 st.set_page_config(page_title="People Analytics Demo", page_icon="🧑", layout="wide")
 st.title("People Analytics Demo")
@@ -86,6 +92,14 @@ with tabMain:
                 st.write("Head Count by Department")
                 counts_by_division_df = df.groupby('DEPARTMENT_NAME')['DEPARTMENT_NAME'].count().reset_index(name='Count')
                 bar_chart = st.bar_chart(data=counts_by_division_df,x='DEPARTMENT_NAME')
+                # st.dataframe(counts_by_division_df.sort_values(by='Count', ascending=False))
+            row3 = st.columns(2, gap="small")
+            with row3[0]:
+                st.write("Head Count by Age")
+                df['AGE'] = df['BIRTH_DATE'].apply(calculate_age)
+                counts_by_age_df = df.groupby("AGE")["AGE"].count().reset_index(name="Count")
+                bar_chart = st.bar_chart(data=counts_by_age_df,x='AGE')                
+            # with row3[1]:
 
 with tabInfo:
     st.write("")
