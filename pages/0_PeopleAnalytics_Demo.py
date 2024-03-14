@@ -1,14 +1,24 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_pills import pills
-from streamlit.hello.utils import show_code
-import snowflake.connector
+# ----------------------Importing utils.py----------------------
+import io
+from utils import (
+    init_connection,
+    run_query,
+    show_code
+)
+
 from urllib.error import URLError
 
 import altair as alt
 import pandas as pd
 
-# embed streamlit docs in a streamlit app
+@st.cache_data
+def load_people_data():
+    results = run_query("SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\", A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\"")
+    return results
+
 st.set_page_config(page_title="People Analytics Demo", page_icon="🧑", layout="wide")
 st.title("People Analytics Demo")
 st.sidebar.markdown("##### Created by:")
@@ -16,16 +26,6 @@ st.sidebar.markdown("# Chris Chen")
 st.sidebar.markdown("## Seasoned Data Analytics Professional")
 st.sidebar.markdown("chrischen.analytics@gmail.com")
 st.sidebar.markdown("https://www.linkedin.com/in/chrischenanalytics")
-
-def init_connection():
-    return snowflake.connector.connect(
-        user=st.secrets["connections"]["snowflake"]["user"],
-        password=st.secrets["connections"]["snowflake"]["password"],
-        account=st.secrets["connections"]["snowflake"]["account"],
-        warehouse=st.secrets["connections"]["snowflake"]["warehouse"],
-        database=st.secrets["connections"]["snowflake"]["database"],
-        schema=st.secrets["connections"]["snowflake"]["schema"]
-    )
 
 tabMain, tabInfo, tabTo_dos = st.tabs(["Main", "Info", "To-do's"])
 
@@ -42,15 +42,50 @@ with tabMain:
         [
             "Overview",
             "Employee Retention",
-            "Recruitment",
+            "Recruitment"
         ],
         [
             "📊",
             "📈",
-            "💼",
+            "💼"
         ],
-        label_visibility="collapsed",
+        label_visibility="collapsed"
     )
+    submitted = st.button("Run!")
+    if submitted:
+        df = load_people_data()
+        if example == "Overview":
+            # Generating the count of records with 'hired_date' greater than each date
+            st.markdown("### Total Headcount: ")
+            total_Count = df['HIRED_DATE'].count()
+            st.write(total_Count)            
+            counts = df['HIRED_DATE'].value_counts().sort_index().cumsum()[::-1]
+            counts_df = pd.DataFrame({
+                'Hired Date': counts.index,
+                'Cumulative Count': counts.values
+            })
+            # Group by 'HIRED_DATE' and count occurrences
+            hiring_counts_df = df.groupby('HIRED_DATE')['HIRED_DATE'].count().reset_index(name='Count')
+
+            # Renaming the 'Value' column to 'Count' to better reflect the new content
+            hiring_counts_df = hiring_counts_df.rename(columns={'Value': 'Count'})
+
+            row1 =  st.columns(2, gap="small")
+            with row1[0]:
+                st.write("Cumulative Head Count")
+                chart = st.line_chart(counts_df.set_index('Hired Date'),width=200, height=260)
+            with row1[1]:
+                st.write("Historical Hiring")
+                chart = st.line_chart(hiring_counts_df.set_index('HIRED_DATE'),width=200, height=260)
+            row2 = st.columns(2, gap="small")
+            with row2[0]:
+                st.write("Head Count by Division")
+                counts_by_division_df = df.groupby('DIVISION_NAME')['DIVISION_NAME'].count().reset_index(name='Count')
+                bar_chart = st.bar_chart(data=counts_by_division_df,x='DIVISION_NAME')
+            with row2[1]:
+                st.write("Head Count by Department")
+                counts_by_division_df = df.groupby('DEPARTMENT_NAME')['DEPARTMENT_NAME'].count().reset_index(name='Count')
+                bar_chart = st.bar_chart(data=counts_by_division_df,x='DEPARTMENT_NAME')
 
 with tabInfo:
     st.write("")
@@ -111,19 +146,10 @@ with tabTo_dos:
         )
         st.write("")
 
-conn = init_connection()
 
-# Function to query data from Snowflake
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetch_pandas_all()
+# conn = init_connection()
     
-# @st.cache_data
-def load_people_data():
-    results = run_query("SELECT B.N_NAME as COUNTRY, A.C_MKTSEGMENT as Segment, SUM(A.C_ACCTBAL) as Balance from CUSTOMER A LEFT JOIN NATION B ON A.C_NATIONKEY = B.N_NATIONKEY group by B.N_NAME, A.C_MKTSEGMENT ")
-    # return results.set_index("N_NAME")
-    return results
+
 
 # def load_segment():
 #     results = run_query("SELECT A.C_MKTSEGMENT as Segment, SUM(A.C_ACCTBAL) as Balance from CUSTOMER A  group by  A.C_MKTSEGMENT ")

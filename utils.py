@@ -16,6 +16,7 @@ import inspect
 import textwrap
 
 import streamlit as st
+import snowflake.connector
 
 
 def show_code(demo):
@@ -26,3 +27,20 @@ def show_code(demo):
         st.markdown("## Code")
         sourcelines, _ = inspect.getsourcelines(demo)
         st.code(textwrap.dedent("".join(sourcelines[1:])))
+
+def init_connection():
+    return snowflake.connector.connect(
+        user=st.secrets["connections"]["snowflake"]["user"],
+        password=st.secrets["connections"]["snowflake"]["password"],
+        account=st.secrets["connections"]["snowflake"]["account"],
+        warehouse=st.secrets["connections"]["snowflake"]["warehouse"],
+        database=st.secrets["connections"]["snowflake"]["database"],
+        schema=st.secrets["connections"]["snowflake"]["schema"]
+    )
+
+# Function to query data from Snowflake
+def run_query(query):
+    conn = init_connection()
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetch_pandas_all()
