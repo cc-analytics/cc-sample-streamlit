@@ -9,4 +9,4 @@ Jinja2
 Requests
 streamlit_folium 
 streamlit-pills
-snowflake-connector-python==2.7.7
+snowflake-connector-python
