@@ -37,17 +37,18 @@ def main():
             "Trend",
             "Headcount",
             "Recruitment",
+            "Demographics",
             "Dataframe"
         ],
         [
             "📈",
             "📊",
             "💼",
+            "🧑",
             "📃"
-        ],
-        label_visibility="collapsed"
+        ]
+        # label_visibility="collapsed"
         )
-        # if st.button("Run!"):
         df = load_people_data()
         if topic == "Trend":
             show_trend(df)
@@ -55,6 +56,8 @@ def main():
             show_headcount(df)
         elif topic == "Recruitment":
             show_recruitment(df)
+        elif topic == "Demographics":
+            show_demographics(df)
         elif topic == "Dataframe":
             show_dataframe(df)
 
@@ -122,6 +125,9 @@ def show_headcount(df):
 
 def show_recruitment(df):
     recruitment_layout(df)
+    
+def show_demographics(df):
+    demographics_layout(df)
 
 def show_dataframe(df):
     dataframe_layout(df)    
@@ -130,8 +136,20 @@ def show_dataframe(df):
 def trend_layout(df):
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("### Headcount Over Time")
-        show_cumulative_headcount(df)
+        df['HIRED_DATE'] = pd.to_datetime(df['HIRED_DATE'])
+        df['END_DATE'] = pd.to_datetime(df['END_DATE'])
+
+        # # Generate date range
+        date_range = pd.date_range(start=df['HIRED_DATE'].min(), end=datetime(2024,3,1))
+        # # Initialize a Series to hold the count for each date
+        date_counts = pd.Series(index=date_range, data='DATE')
+    # Count qualifying records for each date
+    
+        for single_date in date_range:
+            date_counts[single_date] = ((df['HIRED_DATE'] <= single_date) &( (df['END_DATE'] >= single_date) | pd.isna(df['END_DATE']))).sum()
+        label = "### Headcount Over Time: " + f"{date_counts.iloc[-1]:,}"
+        st.markdown(label)        
+        show_cumulative_headcount(date_counts)
     # with col2:
         # st.markdown("### Headcount by Division")
         # show_headcount_by_division(df)
@@ -144,13 +162,6 @@ def headcount_layout(df):
     with r1col2:
         st.markdown("### Headcount by Department")
         show_headcount_by_department(df)        
-    r2col1, r2col2 = st.columns(2)
-    with r2col1:
-        st.markdown("### Headcount by Age")
-        show_headcount_by_age(df)
-    with r2col2:
-        st.markdown("### Headcount by Education")
-        show_headcount_by_education(df)
         
 def recruitment_layout(df):
     col1, col2 = st.columns(2)
@@ -161,6 +172,15 @@ def recruitment_layout(df):
         st.markdown("### Historical Departure")
         show_departures(df)
 
+def demographics_layout(df):
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("### Headcount by Age")
+        show_headcount_by_age(df)
+    with col2:
+        st.markdown("### Headcount by Education")
+        show_headcount_by_education(df)
+
 def dataframe_layout(df):
     col1, col2 = st.columns(2)
     with col1:
@@ -168,19 +188,7 @@ def dataframe_layout(df):
 
 # Actual implementation
 def show_cumulative_headcount(df):
-    df = df
-
-    df['HIRED_DATE'] = pd.to_datetime(df['HIRED_DATE'])
-    df['END_DATE'] = pd.to_datetime(df['END_DATE'])
-
-    # # Generate date range
-    date_range = pd.date_range(start=df['HIRED_DATE'].min(), end=datetime(2024,3,1))
-    # # Initialize a Series to hold the count for each date
-    date_counts = pd.Series(index=date_range, data='DATE')
-    # Count qualifying records for each date
-    for single_date in date_range:
-        date_counts[single_date] = ((df['HIRED_DATE'] <= single_date) &( (df['END_DATE'] >= single_date) | pd.isna(df['END_DATE']))).sum()
-    chart = st.line_chart(date_counts, width=200, height=260)
+     chart = st.line_chart(df, width=200, height=260)
 
 def show_headcount_by_division(df):
     counts_by_division_df = df.groupby('DIVISION_NAME')['DIVISION_NAME'].count().reset_index(name='Count')
