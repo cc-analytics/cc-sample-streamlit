@@ -99,7 +99,6 @@ def main():
         with st.expander("To-do", expanded=True):
             st.write(
                 """
-            - Add a link to the Tableau version
             - Add more metrics
             """
             )
@@ -107,6 +106,7 @@ def main():
         with st.expander("Done", expanded=True):
             st.write(
                 """
+            - Add a link to the Tableau version
             - Deploy the chart component
             - Include information in the 'Info' tab.
             - Set up app layout.
