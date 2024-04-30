@@ -63,7 +63,7 @@ def main():
 
     with tab_info:
         st.markdown(
-    """This Streamlit app connects to my Snowflake data tables.  The mock-up values are created by OpenAI's GPT-4.  Cache is implemented so it does not hit the tables every time (to save my wallet 😄).
+    """I created this Streamlit app to connect to my data tables on [Snowflake](https://app.snowflake.com/).  I used [ChatGPT4] (https://chat.openai.com/) to help me create all the mock-up data.  Cache is implemented on this page to limit number of hit against the Snowflake data table (to save my wallet 😄).
     Then it does the calculations in Python and display the charts.  It shows how you can use Streamlit to build a dashboard.
     I will include my sample app in Tableau, too. https://tinyurl.com/2vejwktt """
 )
