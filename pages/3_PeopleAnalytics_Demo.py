@@ -28,7 +28,7 @@ def main():
     st.sidebar.markdown("##### Created by: Chris Chen\n## Seasoned Data Analytics Professional\nchrischen.analytics@gmail.com\nhttps://www.linkedin.com/in/chrischenanalytics")
 
     # Tabs
-    tab_main, tab_info, tab_to_dos = st.tabs(["Main", "Info", "To-do's"])
+    tab_about, tab_main, tab_to_dos = st.tabs(["About", "Main", "To-do's"])
 
     with tab_main:
         topic = pills(
@@ -61,7 +61,7 @@ def main():
         elif topic == "Dataframe":
             show_dataframe(df)
 
-    with tab_info:
+    with tab_about:
         st.write(
     """I created this Streamlit app to connect to my data tables on [Snowflake](https://app.snowflake.com/).  I used [ChatGPT4] (https://chat.openai.com/) to help me create all the mock-up data.  Cache is implemented on this page to limit number of hit against the Snowflake data table (to save my wallet 😄).
     Then it does the calculations in Python and display the charts.  It shows how you can use Streamlit to build a dashboard.
