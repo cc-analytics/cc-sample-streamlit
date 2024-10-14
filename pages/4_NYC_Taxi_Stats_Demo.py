@@ -8,22 +8,22 @@ from streamlit_pills import pills
 from utils import run_query, init_connection  
 
 # Set Streamlit page configuration at the beginning
-st.set_page_config(page_title="People Analytics Demo ", page_icon="🧑", layout="wide")
+st.set_page_config(page_title="New York City Taxi Demo", page_icon="🚕", layout="wide")
 
-# Decorator for caching data loading function
-@st.cache_data
-def load_people_data():
-    # query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\""
-    query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME, DATEADD(DAY, C.EMPLOYED_LENGTH, A.HIRED_DATE) as END_DATE, C.IS_INVOLUNTARY_TERMINATION from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\" left join CCMOCKUP.PUBLIC.EMPLOYED_LENGTH_TEST C on A.EMPLOYEE_ID = C.EMPLOYEE_ID"
-    return run_query(query)
+# # Decorator for caching data loading function
+# @st.cache_data
+# def load_people_data():
+#     # query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\""
+#     query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME, DATEADD(DAY, C.EMPLOYED_LENGTH, A.HIRED_DATE) as END_DATE, C.IS_INVOLUNTARY_TERMINATION from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\" left join CCMOCKUP.PUBLIC.EMPLOYED_LENGTH_TEST C on A.EMPLOYEE_ID = C.EMPLOYEE_ID"
+#     return run_query(query)
 
-def calculate_age(birth_date):
-    today = datetime.now()
-    age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-    return age
+# def calculate_age(birth_date):
+#     today = datetime.now()
+#     age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+#     return age
 
 def main():
-    st.title("People Analytics Demo 🧑")
+    st.title("New York City Taxi Demo 🍎🚕")
     # Sidebar
     st.sidebar.markdown("##### Created by: Chris Chen\n## Seasoned Data Analytics Professional\nchrischen.analytics@gmail.com\nhttps://www.linkedin.com/in/chrischenanalytics")
 
@@ -49,28 +49,24 @@ def main():
         ]
         # label_visibility="collapsed"
         )
-        df = load_people_data()
-        if topic == "Trend":
-            show_trend(df)
-        elif topic == "Headcount":
-            show_headcount(df)
-        elif topic == "Recruitment":
-            show_recruitment(df)
-        elif topic == "Demographics":
-            show_demographics(df)
-        elif topic == "Dataframe":
-            show_dataframe(df)
+        # df = load_people_data()
+        # if topic == "Trend":
+        #     show_trend(df)
+        # elif topic == "Headcount":
+        #     show_headcount(df)
+        # elif topic == "Recruitment":
+        #     show_recruitment(df)
+        # elif topic == "Demographics":
+        #     show_demographics(df)
+        # elif topic == "Dataframe":
+        #     show_dataframe(df)
 
     with tab_about:
-        st.write(
-    """I created this Streamlit app to connect to my data tables on [Snowflake](https://app.snowflake.com/).  I used [ChatGPT4](https://chat.openai.com/) to help me create all the mock-up data.  Cache is implemented on this page to limit number of hit against the Snowflake data table (to save my wallet 😄).
-    Then it does the calculations in Python and display the charts.  It shows how you can use Streamlit to build a dashboard.
-    I will include my sample app in Tableau, too. https://tinyurl.com/2vejwktt """
-)
+        st.write("""In this demo, I will showcase a statistical analysis by applying descriptive statistics and hypothesis testing to conduct an A/B test. The focus of the analysis is to explore the relationship between fare amounts and payment types using the New York City Taxi & Limousine Commission (TLC) dataset. The answer we are trying to answer is, do the customers who use a credit card pay higher fare amounts than those who use cash?  """)
         st.write("")
-        st.subheader(" What is People Analytics?")
+        st.subheader(" What is an A/B Test?")
         st.markdown(
-            """People Analytics is the data-driven approach to managing people at work. By leveraging data analysis, statistics, and technology, it aims to improve decision-making, enhance employee experience, and boost organizational performance. It covers areas like recruitment, performance evaluation, leadership development, and employee retention, turning insights into actionable strategies.
+            """An A/B test is a statistical method used to compare two versions of something—such as a product, webpage, or process—to determine which performs better based on a specific metric. By randomly dividing participants into two groups (A and B), each group experiences a different version, and their responses are analyzed. This helps to identify significant differences between the two versions, allowing informed decisions based on data rather than assumptions. A/B testing is commonly used in marketing, user experience design, and product development.
     """
         )
         st.write("")
@@ -99,20 +95,17 @@ def main():
         with st.expander("To-do", expanded=True):
             st.write(
                 """
-            - Add more metrics
+            - Create a Tableau visualization
+            - Deploy the chart component
+            - Include information in the 'Info' tab.
             """
             )
             st.write("")
         with st.expander("Done", expanded=True):
             st.write(
                 """
-            - Add a link to the Tableau version
-            - Deploy the chart component
-            - Include information in the 'Info' tab.
             - Set up app layout.
-            - Create Snowflake tables.
-            - Populate mock-up data gnerated by GPT-4.
-            - Create People Analytics metrics.
+         
 
             """
             )
