@@ -29,7 +29,7 @@ def main():
 
     # Tabs
     # tab_about, tab_main, tab_to_dos = st.tabs(["About"])
-    tab_about = st.tabs(["About"])
+    tab_about, tab_main = st.tabs(["About","Main"])
 
     # with tab_main:
         # topic = pills(
@@ -63,11 +63,12 @@ def main():
         #     show_dataframe(df)
 
     with tab_about:
-        st.write(
-    """While exploring a career opportunity at Waymo, I tried to envision what their data might look like. As a data professional, I decided to experiment with various cloud technologies to create a demo. I'm currently in the process of implementing a solution using BigQuery and developing a self-serve BI dashboard with Streamlit. To generate the trip data, I used my OpenAI API account to call the OpenAI model and produce simulated Waymo trip data. A daily call is scheduled to create this simulated data, which is then ingested into BigQuery. The table is partitioned by trip_date to optimize performance.
-There are many ways to implement this, but I chose this approach to keep things interesting while keeping costs low. One thing I've learned from using cloud technologies is that while they are very convenient and at your fingertips, your wallet can quickly get burned if you don't choose wisely. I've learned this the hard way. The rule of thumb is to use only what you need and keep it flexible and scalable. If your design is flexible, you can scale up very quickly.
-"""
-)
+        st.write("While exploring a career opportunity at Waymo, I envisioned what their data ecosystem might look like and decided to create a demo to bring this idea to life. As a data professional, I leveraged my expertise to experiment with various cloud technologies. Currently, I am developing a self-serve BI application using :orange[**Google Cloud Platform**] to showcase my skills and understanding. ")
+        st.write("")                 
+        st.write("At a high level, the data pipeline is designed to ingest and store data in :orange[**BigQuery**] . To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trip data, with the pipeline scheduled to run daily on :orange[**Cloud Function**]. The data is ingested into a :orange[**BigQuery**]  table partitioned by trip_date to enhance query performance. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.")
+        st.write("")
+        st.write("There are many ways to implement this, but I chose this particular design to keep things interesting while maintaining a low cost profile.  One thing I've learned from using cloud technologies is that while they are very convenient, your wallet can quickly get burned if you don't choose wisely. The rule of thumb is to use only what you need but keep it flexible and scalable. You can then quickly scale up if needed. ")
+
         st.write("---")
 
         st.subheader("📖 Resources")
@@ -83,7 +84,8 @@ There are many ways to implement this, but I chose this approach to keep things 
             - [Book](https://www.amazon.com/dp/180056550X) (Getting Started with Streamlit for Data Science)
             - Deploy your apps using [Streamlit Community Cloud](https://streamlit.io/cloud) in just a few clicks 
         """)
-
+    with tab_main:
+        st.write("This page is being updated...")
     # with tab_to_dos:
     #     with st.expander("To-do", expanded=True):
     #         st.write(
