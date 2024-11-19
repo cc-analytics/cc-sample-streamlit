@@ -28,7 +28,8 @@ def main():
     st.sidebar.markdown("##### Created by: Chris Chen\n## Seasoned Data Analytics Professional\nchrischen.analytics@gmail.com\nhttps://www.linkedin.com/in/chrischenanalytics")
 
     # Tabs
-    tab_about, tab_main, tab_to_dos = st.tabs(["About"])
+    # tab_about, tab_main, tab_to_dos = st.tabs(["About"])
+    tab_about = st.tabs(["About"])
 
     # with tab_main:
         # topic = pills(
