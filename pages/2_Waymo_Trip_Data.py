@@ -64,8 +64,8 @@ def main():
     with tab_about:
         st.write(
     """While exploring a career opportunity at Waymo, I tried to envision what their data might look like. As a data professional, I decided to experiment with various cloud technologies to create a demo. I'm currently in the process of implementing a solution using BigQuery and developing a self-serve BI dashboard with Streamlit. To generate the trip data, I used my OpenAI API account to call the OpenAI model and produce simulated Waymo trip data. A daily call is scheduled to create this simulated data, which is then ingested into BigQuery. The table is partitioned by trip_date to optimize performance.
-
-There are many ways to implement this, but I chose this approach to keep things interesting while keeping costs low. One thing I've learned from using cloud technologies is that while they are very convenient and at your fingertips, your wallet can quickly get burned if you don't choose wisely. I've learned this the hard way. The rule of thumb is to use only what you need and keep it flexible and scalable. If your design is flexible, you can scale up very quickly."""
+There are many ways to implement this, but I chose this approach to keep things interesting while keeping costs low. One thing I've learned from using cloud technologies is that while they are very convenient and at your fingertips, your wallet can quickly get burned if you don't choose wisely. I've learned this the hard way. The rule of thumb is to use only what you need and keep it flexible and scalable. If your design is flexible, you can scale up very quickly.
+"""
 )
         st.write("---")
 
@@ -83,27 +83,27 @@ There are many ways to implement this, but I chose this approach to keep things 
             - Deploy your apps using [Streamlit Community Cloud](https://streamlit.io/cloud) in just a few clicks 
         """)
 
-    with tab_to_dos:
-        with st.expander("To-do", expanded=True):
-            st.write(
-                """
-            - Add more metrics
-            """
-            )
-            st.write("")
-        with st.expander("Done", expanded=True):
-            st.write(
-                """
-            - Add a link to the Tableau version
-            - Deploy the chart component
-            - Include information in the 'Info' tab.
-            - Set up app layout.
-            - Create Snowflake tables.
-            - Populate mock-up data gnerated by GPT-4.
-            - Create People Analytics metrics.
+    # with tab_to_dos:
+    #     with st.expander("To-do", expanded=True):
+    #         st.write(
+    #             """
+    #         - Add more metrics
+    #         """
+    #         )
+    #         st.write("")
+    #     with st.expander("Done", expanded=True):
+    #         st.write(
+    #             """
+    #         - Add a link to the Tableau version
+    #         - Deploy the chart component
+    #         - Include information in the 'Info' tab.
+    #         - Set up app layout.
+    #         - Create Snowflake tables.
+    #         - Populate mock-up data gnerated by GPT-4.
+    #         - Create People Analytics metrics.
 
-            """
-            )
+    #         """
+    #         )
 
 # def show_trend(df):
 #     trend_layout(df)
