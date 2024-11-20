@@ -66,7 +66,9 @@ def main():
     with tab_about:
         st.write("While exploring a career opportunity at Waymo, I envisioned what their data ecosystem might look like and decided to create a demo to bring this idea to life. As a data professional, I leveraged my expertise to experiment with various cloud technologies. Currently, I am developing a self-serve BI application using :orange[**Google Cloud Platform**] to showcase my skills and understanding. ")
         st.write("")                 
-        st.write("At a high level, the data pipeline is designed to ingest and store data in :orange[**BigQuery**] . To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trip data, with the pipeline scheduled to run daily on :orange[**Cloud Function**]. The data is ingested into a :orange[**BigQuery**]  table partitioned by trip_date to enhance query performance. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.")
+        st.write("The data pipeline is designed to ingest and store data in :orange[**BigQuery**] for reporting and analysis. ")
+        st.write("")  
+        st.write("To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trips in San Francisco.  The generation pipeline is scheduled to run once every hour on :orange[**Cloud Run Function**]. Then the stream of data is ingested into a :orange[**BigQuery**] table partitioned by trip_date to enhance query performance. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.")
         st.write("")
         st.write("There are many ways to implement this, but I chose this particular design to keep things interesting while maintaining a low cost profile.  One thing I've learned from using cloud technologies is that while they are very convenient, your wallet can quickly get burned if you don't choose wisely. The rule of thumb is to use only what you need but keep it flexible and scalable. You can then quickly scale up if needed. ")
 
