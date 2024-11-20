@@ -11,18 +11,6 @@ from utils import run_query, init_connection
 # Set Streamlit page configuration at the beginning
 st.set_page_config(page_title="Waymo Trip Data on Google Cloud", page_icon="🚗", layout="wide")
 
-# Decorator for caching data loading function
-# @st.cache_data
-# def load_people_data():
-#     # query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\""
-#     query = "SELECT A.EMPLOYEE_ID, A.NAME, A.BIRTH_DATE, A.\"Education\" as EDUCATION, A.HIRED_DATE, A.JOB_NAME, A.DEPARTMENT_NAME, B.\"Division\" as DIVISION_NAME, DATEADD(DAY, C.EMPLOYED_LENGTH, A.HIRED_DATE) as END_DATE, C.IS_INVOLUNTARY_TERMINATION from CCMOCKUP.PUBLIC.EMPLOYEE_TEST A join CCMOCKUP.PUBLIC.DEPARTMENT_TEST B on A.DEPARTMENT_NAME = B.\"Department\" left join CCMOCKUP.PUBLIC.EMPLOYED_LENGTH_TEST C on A.EMPLOYEE_ID = C.EMPLOYEE_ID"
-#     return run_query(query)
-
-# def calculate_age(birth_date):
-#     today = datetime.now()
-#     age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-#     return age
-
 def main():
     st.title("Waymo Trip Data on Google Cloud 🚗")
     # Sidebar
@@ -30,7 +18,7 @@ def main():
 
     # Tabs
     # tab_about, tab_main, tab_to_dos = st.tabs(["About"])
-    tab_about, tab_generate_data = st.tabs(["About","AI Generate Data"])
+    tab_about, tab_generate_data, tab_report, tab_heatmap = st.tabs(["About","AI Generate Data", "Report", "Heatmap"])
 
     with tab_generate_data:
         topic = pills(
@@ -88,98 +76,22 @@ def main():
             - Deploy your apps using [Streamlit Community Cloud](https://streamlit.io/cloud) in just a few clicks 
         """)
 
-    # with tab_to_dos:
-    #     with st.expander("To-do", expanded=True):
-    #         st.write(
-    #             """
-    #         - Add more metrics
-    #         """
-    #         )
-    #         st.write("")
-    #     with st.expander("Done", expanded=True):
-    #         st.write(
-    #             """
-    #         - Add a link to the Tableau version
-    #         - Deploy the chart component
-    #         - Include information in the 'Info' tab.
-    #         - Set up app layout.
-    #         - Create Snowflake tables.
-    #         - Populate mock-up data gnerated by GPT-4.
-    #         - Create People Analytics metrics.
+    with tab_report:
+        st.write("")
+        st.write("As of " + datetime.today().strftime("%m/%d/%Y") + ", this page is actively being updated...")
 
-    #         """
-    #         )
+    with tab_heatmap:
+        st.write("")
+        st.write("As of " + datetime.today().strftime("%m/%d/%Y") + ", this page is actively being updated...")
 
 def show_form():
     form_layout()
 
 def show_data_definition():
     data_definition_layout()
-# def show_headcount(df):
-#     headcount_layout(df)
 
-# def show_recruitment(df):
-#     recruitment_layout(df)
-    
-# def show_demographics(df):
-#     demographics_layout(df)
+# Layout
 
-# def show_dataframe(df):
-#     dataframe_layout(df)    
-
-# # Layout
-# def trend_layout(df):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         df['HIRED_DATE'] = pd.to_datetime(df['HIRED_DATE'])
-#         df['END_DATE'] = pd.to_datetime(df['END_DATE'])
-
-#         # # Generate date range
-#         date_range = pd.date_range(start=df['HIRED_DATE'].min(), end=datetime(2024,3,1))
-#         # # Initialize a Series to hold the count for each date
-#         date_counts = pd.Series(index=date_range, data='DATE')
-#     # Count qualifying records for each date
-    
-#         for single_date in date_range:
-#             date_counts[single_date] = ((df['HIRED_DATE'] <= single_date) &( (df['END_DATE'] >= single_date) | pd.isna(df['END_DATE']))).sum()
-#         label = "### Headcount Over Time: " + f"{date_counts.iloc[-1]:,}"
-#         st.markdown(label)        
-#         show_cumulative_headcount(date_counts)
-#     # with col2:
-#         # st.markdown("### Headcount by Division")
-#         # show_headcount_by_division(df)
-        
-# def headcount_layout(df):
-#     r1col1, r1col2 = st.columns(2)
-#     with r1col1:
-#         st.markdown("### Headcount by Division")
-#         show_headcount_by_division(df)
-#     with r1col2:
-#         st.markdown("### Headcount by Department")
-#         show_headcount_by_department(df)        
-        
-# def recruitment_layout(df):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         st.markdown("### Historical Hirings")
-#         show_hirings(df)
-#     with col2:
-#         st.markdown("### Historical Departure")
-#         show_departures(df)
-
-# def demographics_layout(df):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         st.markdown("### Headcount by Age")
-#         show_headcount_by_age(df)
-#     with col2:
-#         st.markdown("### Headcount by Education")
-#         show_headcount_by_education(df)
-
-# def dataframe_layout(df):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         show_dataframe(df)    
 def form_layout():
     with st.form("my_form"):
 
@@ -258,43 +170,6 @@ def data_definition_layout():
     }
     df = pd.DataFrame(data)
     st.dataframe(df, hide_index=True, use_container_width=True)   
-
-# # Actual implementation
-
-# def show_cumulative_headcount(df):
-#      chart = st.line_chart(df, width=200, height=260)
-
-# def show_headcount_by_division(df):
-#     counts_by_division_df = df.groupby('DIVISION_NAME')['DIVISION_NAME'].count().reset_index(name='Count')
-#     bar_chart = st.bar_chart(data=counts_by_division_df,x='DIVISION_NAME')
-
-# def show_headcount_by_department(df):
-#     counts_by_department_df = df.groupby('DEPARTMENT_NAME')['DEPARTMENT_NAME'].count().reset_index(name='Count')
-#     bar_chart = st.bar_chart(data=counts_by_department_df,x='DEPARTMENT_NAME')
-
-# def show_headcount_by_age(df):
-#     df['AGE'] = df['BIRTH_DATE'].apply(calculate_age)
-#     counts_by_age_df = df.groupby('AGE')['AGE'].count().reset_index(name='Count')
-#     bar_chart = st.bar_chart(data=counts_by_age_df,x='AGE')
-
-# def show_headcount_by_education(df):
-#     counts_by_education_df = df.groupby('EDUCATION')['EDUCATION'].count().reset_index(name='Count')
-#     bar_chart = st.bar_chart(data=counts_by_education_df,x='EDUCATION')   
-
-# def show_hirings(df):
-#     hiring_counts_df = df.groupby('HIRED_DATE')['HIRED_DATE'].count().reset_index(name='Count')    
-#     # chart = st.line_chart(hiring_counts_df.set_index('HIRED_DATE'),width=200, height=260)
-#     chart = st.line_chart(hiring_counts_df, x="HIRED_DATE", y="Count", width=200, height=260)
-
-# def show_departures(df):
-#     df['END_DATE'] = pd.to_datetime(df['END_DATE'])
-#     df = df[df['END_DATE'] < datetime.today()]
-#     departures_counts_df = df.groupby('END_DATE')['END_DATE'].count().reset_index(name='Count')    
-#     chart = st.line_chart(departures_counts_df, x="END_DATE", y="Count", width=200, height=260)    
-
-# def show_dataframe(df):
-#     st.markdown("###### Dataframe created from Snowflake Database")
-#     st.dataframe(df)   
 
 if __name__ == "__main__":
     main()
