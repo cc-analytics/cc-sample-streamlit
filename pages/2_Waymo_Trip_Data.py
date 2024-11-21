@@ -158,17 +158,15 @@ def report_layout():
         # Convert to list of dicts. Required for st.cache_data to hash the return value.
         rows = [dict(row) for row in rows_raw]
         return rows
-
+    
     # Load the query result into a Pandas DataFrame
     df = client.query(query).to_dataframe()
 
     clist = df[["start_latitude", "start_longitude"]].values.tolist()
-
     # San Francisco base map
     st.write("Heat map of the trip starting locations.")
     m = folium.Map([37.76, -122.41], zoom_start=12)
-    
-    # HeatMap(clist).add_to(m)
+    HeatMap(clist).add_to(m)   
     st_data = st_folium(m, width=800, height = 480)
 
     st.write("Data:")    
