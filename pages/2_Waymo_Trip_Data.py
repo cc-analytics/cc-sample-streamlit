@@ -107,7 +107,7 @@ def form_layout():
         col1, col2, col3 = st.columns(3, gap="small")
 
         with col1:
-            trip_count = st.number_input("Number of Trips", value=1, min_value=1, max_value=2, help="The maximum number of trip to generate is 2 per request.")
+            trip_count = st.number_input("Number of Trips", value=1, min_value=1, max_value=10, help="The maximum number of trip to generate is 2 per request.")
 
         with col2:
             trip_date = st.date_input("Trip Date", help="Date of the generated trip.")
