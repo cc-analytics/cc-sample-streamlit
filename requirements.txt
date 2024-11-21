@@ -10,3 +10,4 @@ Requests
 streamlit_folium 
 streamlit-pills
 snowflake-connector-python
+google-cloud-bigquery

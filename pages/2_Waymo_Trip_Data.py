@@ -4,6 +4,9 @@ import pandas as pd
 import altair as alt
 import requests
 from streamlit_pills import pills
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
 
 # Utils imports
 from utils import run_query, init_connection  
@@ -77,7 +80,7 @@ def main():
         """)
 
     with tab_report:
-        st.write("")
+        show_report()
         st.write("As of " + datetime.today().strftime("%m/%d/%Y") + ", this page is actively being updated...")
 
     with tab_heatmap:
@@ -89,6 +92,10 @@ def show_form():
 
 def show_data_definition():
     data_definition_layout()
+
+def show_report():
+    
+    report_layout()
 
 # Layout
 
@@ -131,6 +138,109 @@ def form_layout():
                     st.error(f"Request failed with status code {response.status_code}: {response.text}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
+
+def report_layout():
+    # Create API client.
+    credentials = service_account.Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"]
+    )
+    # Initialize BigQuery client
+    client = bigquery.Client(credentials=credentials)
+    # Define your table ID
+    table_id = "waymo-sandbox.waymo_mockup.trip_data"
+
+    # Query the BigQuery table
+    query = f"SELECT * FROM `{table_id}` order by insert_timestamp desc"
+
+    # Perform query.
+    # Uses st.cache_data to only rerun when the query changes or after 5 min.
+    st.write("Uses st.cache_data to only rerun when the query changes or after 5 min.")
+    @st.cache_data(ttl=300)
+    def run_query(query):
+        query_job = client.query(query)
+        rows_raw = query_job.result()
+        # Convert to list of dicts. Required for st.cache_data to hash the return value.
+        rows = [dict(row) for row in rows_raw]
+        return rows
+
+    # Load the query result into a Pandas DataFrame
+    df = client.query(query).to_dataframe()
+
+    # Display the data
+    # payment_method = st.multiselect(
+    #     "Choose payment method", list(df.index), ["Credit Card", "in-app billing"]
+    # )
+    # if not payment_method:
+    #     st.error("Please select at least one payment method.")
+    # else:
+    st.dataframe(df)
+        # data = df.loc[payment_method]
+        # st.write("### Gross Agricultural Production ($B)", data.sort_index())
+
+        # data = data.T.reset_index()
+        # data = pd.melt(data, id_vars=["index"]).rename(
+        #     columns={"index": "year", "value": "Gross Agricultural Product ($B)"}
+        # )
+        # chart = (
+        #     alt.Chart(data)
+        #     .mark_area(opacity=0.3)
+        #     .encode(
+        #         x="year:T",
+        #         y=alt.Y("Gross Agricultural Product ($B):Q", stack=None),
+        #         color="Region:N",
+        #     )
+        # )
+        # st.altair_chart(chart, use_container_width=True)
+    # except URLError as e:
+    #     st.error(
+    #         """
+    #         **This demo requires internet access.**
+    #         Connection error: %s
+    #     """
+    #         % e.reason
+    #     )
+
+    # print(df.head())  # Display the first few rows
+    # @st.cache_data
+    # def get_UN_data():
+    #     AWS_BUCKET_URL = "https://streamlit-demo-data.s3-us-west-2.amazonaws.com"
+    #     df = pd.read_csv(AWS_BUCKET_URL + "/agri.csv.gz")
+    #     return df.set_index("Region")
+
+    # try:
+    #     df = get_UN_data()
+    #     countries = st.multiselect(
+    #         "Choose countries", list(df.index), ["China", "United States of America"]
+    #     )
+    #     if not countries:
+    #         st.error("Please select at least one country.")
+    #     else:
+    #         data = df.loc[countries]
+    #         data /= 1000000.0
+    #         st.write("### Gross Agricultural Production ($B)", data.sort_index())
+
+    #         data = data.T.reset_index()
+    #         data = pd.melt(data, id_vars=["index"]).rename(
+    #             columns={"index": "year", "value": "Gross Agricultural Product ($B)"}
+    #         )
+    #         chart = (
+    #             alt.Chart(data)
+    #             .mark_area(opacity=0.3)
+    #             .encode(
+    #                 x="year:T",
+    #                 y=alt.Y("Gross Agricultural Product ($B):Q", stack=None),
+    #                 color="Region:N",
+    #             )
+    #         )
+    #         st.altair_chart(chart, use_container_width=True)
+    # except URLError as e:
+    #     st.error(
+    #         """
+    #         **This demo requires internet access.**
+    #         Connection error: %s
+    #     """
+    #         % e.reason
+    #     )
 
 def data_definition_layout():
     # str = '<table><thead><tr><th ><p><span><strong><span>Column name</span></strong></span></p></th><th><p><span><strong><span>Description</span></strong></span></p></th></tr></thead><tbody><tr><td><p data-text-variant="body1"><span><span>ID</span></span></p></td><td><p data-text-variant="body1"><span><span>Trip identification number</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>VendorID</span></span></p></td><td><p data-text-variant="body1"><span><span>A code indicating the TPEP provider that provided the record.&nbsp; </span></span></p><p data-text-variant="body1"><span><strong><span>1= Creative Mobile Technologies, LLC; </span></strong></span></p><p data-text-variant="body1"><span><strong><span>2= VeriFone Inc.</span></strong></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>tpep_pickup_datetime&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The date and time when the meter was engaged.&nbsp;</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>tpep_dropoff_datetime&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The date and time when the meter was disengaged.&nbsp;</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Passenger_count&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The number of passengers in the vehicle.&nbsp;&nbsp;</span></span></p><p data-text-variant="body1"><span><span>This is a driver-entered value.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Trip_distance&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The elapsed trip distance in miles reported by the taximeter.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>PULocationID&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>TLC Taxi Zone in which the taximeter was engaged</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>DOLocationID&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>TLC Taxi Zone in which the taximeter was disengaged</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>RateCodeID&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The final rate code in effect at the end of the trip.&nbsp;</span></span></p><p data-text-variant="body1"><span><strong><span>1= Standard rate&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>2=JFK&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>3=Newark&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>4=Nassau or Westchester&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>5=Negotiated fare&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>6=Group ride</span></strong></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Store_and_fwd_flag&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>This flag indicates whether the trip record was held in vehicle memory before being sent to the vendor, aka “store and forward,”&nbsp; because the vehicle did not have a connection to the server.&nbsp;</span></span></p><p data-text-variant="body1"><span><strong><span>Y= store and forward trip&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>N= not a store and forward trip</span></strong></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Payment_type&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>A numeric code signifying how the passenger paid for the trip.&nbsp; </span></span></p><p data-text-variant="body1"><span><strong><span>1= Credit card&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>2= Cash&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>3= No charge&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>4= Dispute&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>5= Unknown&nbsp;</span></strong></span></p><p data-text-variant="body1"><span><strong><span>6= Voided trip</span></strong></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Fare_amount&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The time-and-distance fare calculated by the meter.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Extra&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>Miscellaneous extras and surcharges. Currently, this only includes the $0.50 and $1 rush hour and overnight charges.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>MTA_tax&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>$0.50 MTA tax that is automatically triggered based on the metered rate in use.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Improvement_surcharge&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>$0.30 improvement surcharge assessed trips at the flag drop. The&nbsp; improvement surcharge began being levied in 2015.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Tip_amount&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>Tip amount – This field is automatically populated for credit card tips. Cash tips are not included.</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Tolls_amount&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>Total amount of all tolls paid in trip.&nbsp;</span></span></p></td></tr><tr><td><p data-text-variant="body1"><span><span>Total_amount&nbsp;</span></span></p></td><td><p data-text-variant="body1"><span><span>The total amount charged to passengers. Does not include cash tips.</span></span></p></td></tr></tbody></table>'
