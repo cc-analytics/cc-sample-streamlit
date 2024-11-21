@@ -12,3 +12,4 @@ streamlit-pills
 snowflake-connector-python
 google-cloud-bigquery
 db-dtypes
+folium.plugins
