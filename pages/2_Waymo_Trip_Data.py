@@ -168,7 +168,7 @@ def report_layout():
     st.write("Heat map of the trip starting locations.")
     m = folium.Map([37.76, -122.41], zoom_start=12)
     
-    HeatMap(clist).add_to(m)
+    # HeatMap(clist).add_to(m)
     st_data = st_folium(m, width=800, height = 480)
 
     st.write("Data:")    
