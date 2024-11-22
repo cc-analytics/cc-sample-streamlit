@@ -103,7 +103,7 @@ def form_layout():
         col1, col2, col3 = st.columns(3, gap="small")
 
         with col1:
-            trip_count = st.number_input("Number of Trips", value=1, min_value=1, max_value=10, help="The maximum number of trip to generate is 2 per request.")
+            trip_count = st.number_input("Number of Trips", value=1, min_value=1, max_value=10, help="The maximum number of trip to generate is 10 per request.")
 
         with col2:
             trip_date = st.date_input("Trip Date", help="Date of the generated trip.")
@@ -168,7 +168,7 @@ def report_layout():
     col1, col2 = st.columns([3,1])
     # Initialize session state for map visibility
     if "show_map" not in st.session_state:
-        st.session_state.show_map = False
+        st.session_state.show_map = True
 
     with col1:
         st.write("Heat map of the trip starting locations.")
