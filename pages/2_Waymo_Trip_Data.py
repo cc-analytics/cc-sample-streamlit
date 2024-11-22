@@ -162,19 +162,27 @@ def report_layout():
     # Load the query result into a Pandas DataFrame
     # df = client.query(query).to_dataframe()
     df = pd.DataFrame(run_query(query))
-
-    clist = df[["start_latitude", "start_longitude"]].values.tolist()
+    clist = df[["start_latitude", "start_longitude"]].values.tolist()        
     # San Francisco base map
-    st.write("Heat map of the trip starting locations.")
+
     col1, col2 = st.columns([3,1])
+    # Initialize session state for map visibility
+    if "show_map" not in st.session_state:
+        st.session_state.show_map = False
 
     with col1:
-        m = folium.Map([37.76, -122.41], zoom_start=12)
-        HeatMap(clist).add_to(m)   
-        st_data = st_folium(m, width=800, height = 480)
+        st.write("Heat map of the trip starting locations.")
+        # Button to toggle map visibility
+        if st.button("Toggle Heat Map"):
+            st.session_state.show_map = not st.session_state.show_map
+
+        if st.session_state.show_map:
+            m = folium.Map([37.76, -122.41], zoom_start=12)
+            HeatMap(clist).add_to(m)   
+            st_data = st_folium(m, width=800, height = 480)
         st.write("Data:")    
         st.dataframe(df)
-
+    
     with col2:
         st.date_input(label="Start Date")
         st.date_input(label="End Date")
