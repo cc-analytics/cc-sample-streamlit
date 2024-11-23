@@ -9,6 +9,7 @@ from google.cloud import bigquery
 from folium.plugins import HeatMap
 import folium
 from streamlit_folium import st_folium
+from streamlit_folium import folium_static
 
 # Utils imports
 from utils import run_query, init_connection  
@@ -162,8 +163,14 @@ def heatmap_layout():
     
     col1, col2 = st.columns([3,1])
     # Initialize session state for map visibility
+    if "map_center" not in st.session_state:
+        st.session_state.map_center = [37.76, -122.41]  # Default center
+    if "map_zoom" not in st.session_state:
+        st.session_state.map_zoom = 12  # Default zoom
+
     if "show_map" not in st.session_state:
         st.session_state.show_map = True
+
     with col2:
         start_date = st.date_input("Start Date",datetime.strptime("2024-05-01", '%Y-%m-%d').date() )
         end_date = st.date_input("End Date", datetime.today())
@@ -175,25 +182,85 @@ def heatmap_layout():
         start_date = pd.to_datetime(start_date)
         end_date = pd.to_datetime(end_date)
         filtered_df = filtered_df[(filtered_df['trip_date'] >= start_date) & (filtered_df['trip_date'] <= end_date)]
-    if payment_method in ["credit card", "in-App billing"]:
+    
+    if payment_method in ["credit card", "in-app billing"]:
         filtered_df = filtered_df[filtered_df['payment_method'] == payment_method]
 
     clist = filtered_df[["start_latitude", "start_longitude"]].values.tolist()    
+    
 
     with col1:
         st.write("Click the button to toggle :orange[**Heat map**] of the trip starting locations.")
         # Button to toggle map visibility
         if st.button("Toggle Heat Map"):
             st.session_state.show_map = not st.session_state.show_map
-
+            # st.session_state.map_center = [37.76, -122.41]  # Default center
+            # st.session_state.map_zoom = 12  # Default zoom
         if st.session_state.show_map:
             # San Francisco base map
-            m = folium.Map([37.76, -122.41], zoom_start=12)
-            HeatMap(clist).add_to(m)   
-            st_data = st_folium(m, width=800, height = 480)
+            with st.container(height = 510):
+                m = folium.Map(location=st.session_state.map_center, zoom_start=st.session_state.map_zoom)
+                HeatMap(clist).add_to(m)   
+                # Add a JavaScript listener to capture map zoom and center
+                capture_js = """
+                <script>
+                    function captureMapState(map) {
+                        map.on('zoomend', function() {
+                            const zoomLevel = map.getZoom();
+                            const center = map.getCenter();
+                            const state = JSON.stringify({ zoom: zoomLevel, center: center });
+                            document.getElementById('map_state').value = state;
+                            document.getElementById('map_state').dispatchEvent(new Event('change'));
+                        });
+                        map.on('moveend', function() {
+                            const zoomLevel = map.getZoom();
+                            const center = map.getCenter();
+                            const state = JSON.stringify({ zoom: zoomLevel, center: center });
+                            document.getElementById('map_state').value = state;
+                            document.getElementById('map_state').dispatchEvent(new Event('change'));
+                        });
+                    }
+                    setTimeout(() => {
+                        if (window.map) {
+                            captureMapState(window.map);
+                        }
+                    }, 500);
+                </script>
+                <input type="hidden" id="map_state" name="map_state" value="">
+                """
+                # Add the custom JavaScript to the map
+                m.get_root().html.add_child(folium.Element(capture_js))
+                st_data = st_folium(m, width=800, height = 480)
+            # st_data = folium_static(m, width=800, height 
+                # st.session_state.map_zoom = st_data.get("zoom")
+                # cdata = st_data.get("center")
+                # if cdata:
+                #     st.session_state.map_center = [cdata["lat"],cdata["lng"]] 
+                # Update session state based on user interaction
+                if st_data:
+                    # st.write("Raw map_data:", st_data)
+                    cdata = st_data.get("center")
+                    if cdata:
+                        updated_center = [st_data["center"]["lat"], st_data["center"]["lng"]]
+                        if updated_center != st.session_state.map_center:
+                            st.session_state.map_center = updated_center
+                            st.experimental_rerun() 
+                    zdata = st_data.get("zoom")
+                    if zdata:
+                        updated_zoom = st_data["zoom"]
+                        if (updated_zoom != st.session_state.map_zoom):
+                            st.session_state.map_zoom = updated_zoom
+                            st.experimental_rerun() 
+
+                # # Display the captured map state
+                # st.write("Map Center:", st.session_state.map_center)
+                # st.write("Zoom Level:", st.session_state.map_zoom)
+
         st.write("Data:")    
         st.dataframe(filtered_df)
-    
+    # with col2:
+    #     zoom_level = st.text_input("Zoom level", value=st_data.get("zoom"))
+        
     
 
 def data_definition_layout():
