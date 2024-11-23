@@ -255,10 +255,17 @@ def heatmap_layout():
                 # # Display the captured map state
                 # st.write("Map Center:", st.session_state.map_center)
                 # st.write("Zoom Level:", st.session_state.map_zoom)
+        # Add a session state variable to track refresh requests
+        if "refresh" not in st.session_state:
+            st.session_state.refresh = False
 
+        # If refresh is triggered, clear the cache and reset the flag
+        if st.session_state.refresh:
+            run_query.clear()
+            st.session_state.refresh = False  # Reset the flag 
         st.write("Data: (query results cached with 5 minutes timeout)")
         if st.button("Force Refresh"):
-            run_query.clear()  # Clear the cache for this function    
+            st.session_state.refresh = True  # Set the flag to trigger a rerun
         st.dataframe(filtered_df)
     # with col2:
     #     zoom_level = st.text_input("Zoom level", value=st_data.get("zoom"))
