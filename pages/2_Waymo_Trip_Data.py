@@ -23,7 +23,7 @@ def main():
 
     # Tabs
     # tab_about, tab_main, tab_to_dos = st.tabs(["About"])
-    tab_about, tab_generate_data, tab_report = st.tabs(["About","AI Generate Data", "Report"])
+    tab_about, tab_generate_data, tab_heatmap = st.tabs(["About","AI Generate Data", "Heat Map"])
 
     with tab_generate_data:
         topic = pills(
@@ -81,8 +81,8 @@ def main():
             - Deploy your apps using [Streamlit Community Cloud](https://streamlit.io/cloud) in just a few clicks 
         """)
 
-    with tab_report:
-        show_report()
+    with tab_heatmap:
+        show_heatmap()
 
 def show_form():
     form_layout()
@@ -90,8 +90,8 @@ def show_form():
 def show_data_definition():
     data_definition_layout()
 
-def show_report():
-    report_layout()
+def show_heatmap():
+    heatmap_layout()
 
 # Layout
 
@@ -135,7 +135,7 @@ def form_layout():
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
-def report_layout():
+def heatmap_layout():
     # Create API client.
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_service_account"]
@@ -171,7 +171,7 @@ def report_layout():
         st.session_state.show_map = True
 
     with col1:
-        st.write("Heat map of the trip starting locations.")
+        st.write("Click the button to toggle :orange[**Heat map**] of the trip starting locations.")
         # Button to toggle map visibility
         if st.button("Toggle Heat Map"):
             st.session_state.show_map = not st.session_state.show_map
