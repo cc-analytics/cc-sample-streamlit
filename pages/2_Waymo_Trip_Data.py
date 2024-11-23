@@ -201,56 +201,56 @@ def heatmap_layout():
             with st.container(height = 510):
                 m = folium.Map(location=st.session_state.map_center, zoom_start=st.session_state.map_zoom)
                 HeatMap(clist).add_to(m)   
-                # Add a JavaScript listener to capture map zoom and center
-                capture_js = """
-                <script>
-                    function captureMapState(map) {
-                        map.on('zoomend', function() {
-                            const zoomLevel = map.getZoom();
-                            const center = map.getCenter();
-                            const state = JSON.stringify({ zoom: zoomLevel, center: center });
-                            document.getElementById('map_state').value = state;
-                            document.getElementById('map_state').dispatchEvent(new Event('change'));
-                        });
-                        map.on('moveend', function() {
-                            const zoomLevel = map.getZoom();
-                            const center = map.getCenter();
-                            const state = JSON.stringify({ zoom: zoomLevel, center: center });
-                            document.getElementById('map_state').value = state;
-                            document.getElementById('map_state').dispatchEvent(new Event('change'));
-                        });
-                    }
-                    setTimeout(() => {
-                        if (window.map) {
-                            captureMapState(window.map);
-                        }
-                    }, 500);
-                </script>
-                <input type="hidden" id="map_state" name="map_state" value="">
-                """
-                # Add the custom JavaScript to the map
-                m.get_root().html.add_child(folium.Element(capture_js))
+                # # Add a JavaScript listener to capture map zoom and center
+                # capture_js = """
+                # <script>
+                #     function captureMapState(map) {
+                #         map.on('zoomend', function() {
+                #             const zoomLevel = map.getZoom();
+                #             const center = map.getCenter();
+                #             const state = JSON.stringify({ zoom: zoomLevel, center: center });
+                #             document.getElementById('map_state').value = state;
+                #             document.getElementById('map_state').dispatchEvent(new Event('change'));
+                #         });
+                #         map.on('moveend', function() {
+                #             const zoomLevel = map.getZoom();
+                #             const center = map.getCenter();
+                #             const state = JSON.stringify({ zoom: zoomLevel, center: center });
+                #             document.getElementById('map_state').value = state;
+                #             document.getElementById('map_state').dispatchEvent(new Event('change'));
+                #         });
+                #     }
+                #     setTimeout(() => {
+                #         if (window.map) {
+                #             captureMapState(window.map);
+                #         }
+                #     }, 500);
+                # </script>
+                # <input type="hidden" id="map_state" name="map_state" value="">
+                # """
+                # # Add the custom JavaScript to the map
+                # m.get_root().html.add_child(folium.Element(capture_js))
                 st_data = st_folium(m, width=800, height = 480)
             # st_data = folium_static(m, width=800, height 
                 # st.session_state.map_zoom = st_data.get("zoom")
                 # cdata = st_data.get("center")
                 # if cdata:
-                #     st.session_state.map_center = [cdata["lat"],cdata["lng"]] 
+                    # st.session_state.map_center = [cdata["lat"],cdata["lng"]] 
                 # Update session state based on user interaction
-                if st_data:
-                    # st.write("Raw map_data:", st_data)
-                    cdata = st_data.get("center")
-                    if cdata:
-                        updated_center = [st_data["center"]["lat"], st_data["center"]["lng"]]
-                        if updated_center != st.session_state.map_center:
-                            st.session_state.map_center = updated_center
-                            st.experimental_rerun() 
-                    zdata = st_data.get("zoom")
-                    if zdata:
-                        updated_zoom = st_data["zoom"]
-                        if (updated_zoom != st.session_state.map_zoom):
-                            st.session_state.map_zoom = updated_zoom
-                            st.experimental_rerun() 
+                # if st_data:
+                #     # st.write("Raw map_data:", st_data)
+                #     cdata = st_data.get("center")
+                #     if cdata:
+                #         updated_center = [st_data["center"]["lat"], st_data["center"]["lng"]]
+                #         if updated_center != st.session_state.map_center:
+                #             st.session_state.map_center = updated_center
+                #             # st.experimental_rerun() 
+                #     zdata = st_data.get("zoom")
+                #     if zdata:
+                #         updated_zoom = st_data["zoom"]
+                #         if (updated_zoom != st.session_state.map_zoom):
+                #             st.session_state.map_zoom = updated_zoom
+                            # st.experimental_rerun() 
 
                 # # Display the captured map state
                 # st.write("Map Center:", st.session_state.map_center)
