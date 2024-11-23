@@ -148,7 +148,7 @@ def heatmap_layout():
     table_id = "waymo-sandbox.waymo_mockup.trip_data"
 
     # Query the BigQuery table
-    query = f"SELECT * FROM `{table_id}` order by insert_timestamp desc"
+    query = f"SELECT * FROM `{table_id}` order by insert_timestamp desc limit 1000"
 
     # Perform query.
     # Uses st.cache_data to only rerun when the query changes or after 5 min.
