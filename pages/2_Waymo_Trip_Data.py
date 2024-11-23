@@ -256,7 +256,9 @@ def heatmap_layout():
                 # st.write("Map Center:", st.session_state.map_center)
                 # st.write("Zoom Level:", st.session_state.map_zoom)
 
-        st.write("Data:")    
+        st.write("Data: (query results cached with 5 minutes timeout)")
+        if st.button("Force Refresh"):
+            run_query.clear()  # Clear the cache for this function    
         st.dataframe(filtered_df)
     # with col2:
     #     zoom_level = st.text_input("Zoom level", value=st_data.get("zoom"))
