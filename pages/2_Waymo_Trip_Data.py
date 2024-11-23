@@ -104,7 +104,7 @@ def form_layout():
 
         with col1:
             trip_count = st.number_input("Number of Trips", value=1, min_value=1, max_value=10, help="The maximum number of trip to generate is 10 per request.")
-            prompt_hint = st.text_input("Prompt trip location hint:", help="Enter hint of locations for the trips.")
+            prompt_hint = st.text_input("Trip location hint (Optional):", help="Enter hint of locations for the trips.")
 
         with col2:
             trip_date = st.date_input("Trip Date", help="Date of the generated trip.")
