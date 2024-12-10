@@ -24,7 +24,7 @@ def main():
 
     # Tabs
     # tab_about, tab_main, tab_to_dos = st.tabs(["About"])
-    tab_about, tab_generate_data, tab_heatmap = st.tabs(["About","AI Generate Data", "Heat Map"])
+    tab_about, tab_generate_data, tab_heatmap = st.tabs(["About","OpenAI vs. Gemini", "Heat Map"])
 
     with tab_generate_data:
         topic = pills(
@@ -58,8 +58,9 @@ def main():
         st.write("")  
         st.write("To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trips in San Francisco.  The generation pipeline is scheduled to run once every hour on :orange[**Cloud Run Function**]. Then the stream of data is ingested into a :orange[**BigQuery**] table partitioned by trip_date to enhance query performance. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.")
         st.write("")
-        st.write("There are many ways to implement this, but I chose this particular design to keep things interesting while maintaining a low cost profile.  One thing I've learned from using cloud technologies is that while they are very convenient, your wallet can quickly get burned if you don't choose wisely. The rule of thumb is to use only what you need but keep it flexible and scalable. You can then quickly scale up if needed. ")
-
+        st.write("There are many ways to implement this, but I chose this particular design to keep things interesting while maintaining a low cost profile.  One thing I've learned from using cloud technologies is that while they are very convenient, your wallet can quickly get burned if you don't choose wisely. The rule of thumb is to :orange[**use only what you need**] but keep it :orange[**flexible**] and :orange[**scalable**]. You can then quickly scale up if needed. ")
+        st.write("")
+        st.write("Later, I decided to compare OpenAI and :orange[**Google Gemini**] and see how they differ in generating the mock-up data and in terms of costs.  ")
         st.write("---")
 
         st.subheader("📖 Resources")
@@ -91,6 +92,8 @@ def show_heatmap():
 # Layout
 
 def form_layout():
+    st.write("Added Google :orange[**Vertex AI**] Gemini model to compare in terms of precision, variability, and cost.  ")
+    st.write("Using one of the latest Gemini models, gemini-1.5-flash-002.")
     with st.form("my_form"):
 
         st.write("Trip data gets AI generated and inserted into Google :orange[**BigQuery**] for analysis.")
@@ -103,6 +106,7 @@ def form_layout():
 
         with col2:
             trip_date = st.date_input("Trip Date", help="Date of the generated trip.")
+            gen_ai_model = st.radio("Gen AI Model to Use", ["OpenAI gpt-3.5-turbo-instruct","gemini-1.5-flash-002"],help="Gen AI model for mock-up data generation.")
 
 
         # col1, col2 = st.columns(2, gap="medium")
@@ -115,7 +119,8 @@ def form_layout():
             payload = {
                 "trip_count": trip_count,
                 "trip_date": str(trip_date),
-                "prompt_hint": prompt_hint
+                "prompt_hint": prompt_hint,
+                "gen_ai_model": gen_ai_model
             }
 
             try:
@@ -175,6 +180,7 @@ def heatmap_layout():
         start_date = st.date_input("Start Date",datetime.strptime("2024-05-01", '%Y-%m-%d').date() )
         end_date = st.date_input("End Date", datetime.today())
         payment_method = st.radio("Payment Method", ["Any", "credit card", "in-app billing"], index=0)
+        genai_model = st.radio("GenAI Model", ["OpenAI gpt-3.5-turbo-instruct", "gemini-1.5-flash-002"], index=0)
     
     filtered_df = df
 
@@ -185,6 +191,9 @@ def heatmap_layout():
     
     if payment_method in ["credit card", "in-app billing"]:
         filtered_df = filtered_df[filtered_df['payment_method'] == payment_method]
+
+    if genai_model in ["OpenAI gpt-3.5-turbo-instruct", "gemini-1.5-flash-002"]:
+        filtered_df = filtered_df[filtered_df['gen_ai_model'] == genai_model]
 
     clist = filtered_df[["start_latitude", "start_longitude"]].values.tolist()    
     
@@ -291,6 +300,7 @@ def data_definition_layout():
                     ,"payment_amount"
                     ,"payment_method"
                     ,"insert_timestamp"
+                    ,"gen_ai_model"
                     ],
         'Description': ["Unique identifier for each trip.  UUID format."
                         ,"Date of the trip start."
@@ -306,6 +316,7 @@ def data_definition_layout():
                         ,"Amount billed for the trip."
                         ,"Payment type (e.g., credit card, in-app billing)."
                         ,"Data insert timestamp."
+                        ,"Gen AI model name."
 ]
     }
     df = pd.DataFrame(data)
