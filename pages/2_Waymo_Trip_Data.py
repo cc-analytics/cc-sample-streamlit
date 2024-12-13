@@ -180,7 +180,7 @@ def heatmap_layout():
         start_date = st.date_input("Start Date",datetime.strptime("2024-05-01", '%Y-%m-%d').date() )
         end_date = st.date_input("End Date", datetime.today())
         payment_method = st.radio("Payment Method", ["Any", "credit card", "in-app billing"], index=0)
-        genai_model = st.radio("GenAI Model", ["OpenAI gpt-3.5-turbo-instruct", "gemini-1.5-flash-002"], index=0)
+        genai_model = st.radio("GenAI Model", ["gpt-3.5-turbo-instruct", "gemini-1.5-flash-002"], index=0)
     
     filtered_df = df
 
