@@ -50,13 +50,13 @@ def main():
             show_form()
         elif topic == "Data Definition":
             show_data_definition()
-        
+    tableau_url = "https://public.tableau.com/app/profile/chrischen.analytics/viz/WaymoMock-upTripData/Dashboard1"
     with tab_about:
         st.write("While exploring a career opportunity at Waymo, I envisioned what their data ecosystem might look like and decided to create a demo to bring this idea to life. As a data professional, I leveraged my expertise to experiment with various cloud technologies. Currently, I am developing a self-serve BI application using :orange[**Google Cloud Platform**] to showcase my skills and understanding. ")
         st.write("")                 
         st.write("The data pipeline is designed to ingest and store data in :orange[**BigQuery**] for reporting and analysis. ")
         st.write("")  
-        st.write("To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trips in San Francisco.  The generation pipeline is scheduled to run once every hour on :orange[**Cloud Run Function**]. Then the stream of data is ingested into a :orange[**BigQuery**] table. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.")
+        st.write("To simulate trip data, I use my :orange[**OpenAI API**] account to generate Waymo trips in San Francisco.  The generation pipeline is scheduled to run once every hour on :orange[**Cloud Run Function**]. Then the stream of data is ingested into a :orange[**BigQuery**] table. Finally, I leverage :orange[**Streamlit**]  to develop a self-service BI application for analyzing and visualizing the data.  A :orange[**Tableau**] dashboard is available here: [Tableau dashboard](%s)" % tableau_url)
         st.write("")
         st.write("There are many ways to implement this, but I chose this particular design to keep things interesting while maintaining a low cost profile.  One thing I've learned from using cloud technologies is that while they are very convenient, your wallet can quickly get burned if you don't choose wisely. The rule of thumb is to :orange[**use only what you need**] but keep it :orange[**flexible**] and :orange[**scalable**]. You can then quickly scale up if needed. ")
         st.write("")
