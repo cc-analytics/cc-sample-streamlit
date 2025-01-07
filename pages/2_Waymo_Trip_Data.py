@@ -64,7 +64,7 @@ def main():
         st.write("")
         st.write("Some people commented and said I should visualize the data in :orange[**Tableau**].  So I use a :orange[**Cloud Composer**] to query BigQuery data, export to :orange[**Google Sheet**] to support the [Tableau dashboard](%s).  It refreshes daily.  " % tableau_url)
         st.write("")
-        st.write("1/7/2025:  I just got inspired to train a GenAI model against the mock-up data.  ")
+        st.write("I just got inspired with an idea to train a :orange[**GenAI model**] against the mock-up data to answer BI questions.  ")
         st.write("---")
 
         st.subheader("📖 Resources")
