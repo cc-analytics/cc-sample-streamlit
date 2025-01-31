@@ -36,9 +36,9 @@ def run():
         **👈 Select a demo from the sidebar** to see some examples
         of what Streamlit can do!
         - [Waymo Trip Data](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/Waymo_Trip_Data)
-            - Google Cloud Platform (GCP): BigQuery, Cloud Run Functions, Cloud Scheduler, IAM, Python
-            - Gen AI API:  OpenAI API, Gemini API
-            - Streamlit, Folium Plug-in for visualization
+            - GCP (Google Cloud): BigQuery, Cloud Run Functions, Cloud Scheduler, IAM, Python
+            - Genenerative AI API:  OpenAI, Gemini
+            - Visualization: Streamlit, Folium Plug-in, Tableau, Power BI
         - [People Analytics](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/PeopleAnalytics_Demo)
             - Snowflake
             - OpenAI ChatGPT, Streamlit visualization
