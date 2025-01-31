@@ -44,7 +44,6 @@ def run():
         - [NYC Taxi Statistical Analysis](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/NYC_Taxi_Stats_Demo)
             - Python, LaTeX, Statistics
         - D3.js Visualization
-            - javascript, D3.js for visualization
             - [US Subscription Lifecycle](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/D3_Demo1)
             - [Online Sales](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/D3_Demo2)
         - [Snowflake Connectivity](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/Snowflake_Connect_Demo)

@@ -4,10 +4,10 @@ pandas
 pydeck
 streamlit
 folium>=0.12.1
-branca
+branca>=0.5.0
 Jinja2
 Requests
-streamlit_folium 
+streamlit_folium>=0.9.2
 streamlit-pills
 snowflake-connector-python
 google-cloud-bigquery
