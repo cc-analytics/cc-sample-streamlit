@@ -30,6 +30,28 @@ def run():
     with row1[0]:
         st.write("As a passionate professional with over 12 years of experience in the data field, committed to the ever-evolving landscape of system design and programming, I've created this platform to share my experiences, projects, and insights gained outside of my regular job. On this website, you'll discover detailed examples of my work with various cloud technologies, showcasing how I tackle complex challenges and contribute to the advancement of data-driven decision-making from my personal projects. This site also serves as my personal learning ground, helping me stay at the forefront of technological innovation. ")
         st.write("Whether you're a fellow enthusiast, a potential collaborator, or someone curious about the power of data analytics and cloud computing, I invite you to explore my portfolio and share in the journey of continuous learning and improvement.")
+        st.markdown(
+        """
+        ### Tools used in the projects:
+        **👈 Select a demo from the sidebar** to see some examples
+        of what Streamlit can do!
+        - [Waymo Trip Data](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/Waymo_Trip_Data)
+            - Google Cloud Platform (GCP): BigQuery, Cloud Run Functions, Cloud Scheduler, IAM, Python
+            - Gen AI API:  OpenAI API, Gemini API
+            - Streamlit, Folium Plug-in for visualization
+        - [People Analytics](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/PeopleAnalytics_Demo)
+            - Snowflake
+            - OpenAI ChatGPT, Streamlit visualization
+        - [NYC Taxi Statistical Analysis](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/NYC_Taxi_Stats_Demo)
+            - Python, LaTeX, Statistics
+        - [D3.js Visualization]
+            - javascript, D3.js for visualization
+            - [US Subscription Lifecycle](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/D3_Demo1)
+            - [Online Sales](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/D3_Demo2)
+        - [Snowflake Connectivity](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/Snowflake_Connect_Demo)
+            - Snowflake
+   """
+    )
     with row1[1]:        
         st.markdown("##### Restaurants I enjoy near Dublin, CA:  ")
         # Some restaurants I like around Dublin
@@ -38,7 +60,7 @@ def run():
         st.write("🥡 Yin Ji Chang Fen: Healthy & light Cantonese food.")
         st.write("🥟 Mayflower Restaurant: Good Dimsum.")
         st.write("🍛 Cafe Tazza: Authentic Indian food.")
-        st.write("🍣 Sata Japanese Restaurant: Authentic Japanese sushi.")
+        st.write("🍣 Sato Japanese Restaurant: Authentic Japanese sushi.")
         snow_icon = folium.map.Icon(color='lightblue')
         # folium.Marker(location=[37.70286733532977, -121.87460047508559], popup="Snowflake", icon=snow_icon
         # ).add_to(m)
@@ -69,8 +91,6 @@ def run():
         """
         Streamlit is an open-source app framework built specifically for
         Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
         ### Want to learn more?
         - Check out [streamlit.io](https://streamlit.io)
         - Jump into our [documentation](https://docs.streamlit.io)
