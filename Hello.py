@@ -33,8 +33,7 @@ def run():
         st.markdown(
         """
         ### Tools used in the projects:
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
+        **👈 Select a demo from the sidebar or from below.** 
         - [Waymo Trip Data](https://cc-sample-app-snnxokaebveqgwmrbdx8p4.streamlit.app/Waymo_Trip_Data)
             - GCP (Google Cloud): BigQuery, Cloud Run Functions, Cloud Scheduler, IAM, Python
             - Genenerative AI API:  OpenAI, Gemini
