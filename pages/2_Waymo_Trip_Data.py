@@ -152,7 +152,7 @@ def heatmap_layout():
     table_id = "waymo-sandbox.waymo_mockup.trip_data"
 
     # Query the BigQuery table
-    query = f"SELECT * FROM `{table_id}` order by insert_timestamp desc limit 1000"
+    query = f"SELECT * FROM `{table_id}` order by insert_timestamp desc limit 5000"
 
     # Perform query.
     # Uses st.cache_data to only rerun when the query changes or after 5 min.
@@ -203,7 +203,7 @@ def heatmap_layout():
     
 
     with col1:
-        st.write("Click the button to toggle :orange[**Heat map**] of the trip starting locations.")
+        st.write("Click the button to toggle :orange[**Heat map**] of the last 5000 trip starting locations.")
         # Button to toggle map visibility
         if st.button("Toggle Heat Map"):
             st.session_state.show_map = not st.session_state.show_map
