@@ -76,7 +76,6 @@ def run():
         ).add_to(m)
         # call to render Folium map in Streamlit
         st_data = st_folium(m, width=350, height = 400)
-    st.write("Created with Streamlit")
     st.write("")
     st.sidebar.markdown("##### Created by:")
     st.sidebar.markdown("# Chris Chen")
